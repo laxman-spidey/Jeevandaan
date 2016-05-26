@@ -34,6 +34,8 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	Context context;
 
 	// web service URL
+	//public static final String DOMAIN = "https://jeevandaan-mittu-spidey.c9users.io/index.php";
+	//public static final String DOMAIN = "http://192.168.0.4/jeevandaan/index.php";
 	public static final String DOMAIN = "http://health4all.online/jeevandaan";
 	//public static final String DOMAIN = "http://yousee.in/YouseeMobile/";
 	// DownloadWebpageTask downloadwebContent;
@@ -186,6 +188,15 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		LogUtil.print("onResponseReceived()");
 		int requestCode = 0;
 		int resultCode = 0;
+		/*
+		String contetString1;
+		try {
+			contetString1 = readIt(response.getEntity().getContent());
+			LogUtil.print(contetString1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
 
 		if (response != null)
 		{

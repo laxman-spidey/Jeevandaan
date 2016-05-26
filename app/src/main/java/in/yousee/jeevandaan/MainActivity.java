@@ -1,19 +1,26 @@
 package in.yousee.jeevandaan;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import in.yousee.jeevandaan.model.CustomException;
+
 public class MainActivity extends YouseeCustomActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,13 @@ public class MainActivity extends YouseeCustomActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SummaryMiddleware middleware = new SummaryMiddleware(this);
+        try {
+            middleware.sendRequest();
+        } catch (CustomException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -77,10 +91,13 @@ public class MainActivity extends YouseeCustomActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Fragment fragment = null;
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            //fragment = new LocationsFragment();
             // Handle the camera action
+            startLocationsActivity();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -92,14 +109,32 @@ public class MainActivity extends YouseeCustomActivity
         } else if (id == R.id.nav_send) {
 
         }
+        if(fragment != null)
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.main_content,fragment).commit();
+            //setTitle();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    public void startLocationsActivity()
+    {
+
+        Intent intent = new Intent();
+        intent.setClass(this, in.yousee.jeevandaan.LocationsActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void onResponseRecieved(Object response, int requestCode) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
