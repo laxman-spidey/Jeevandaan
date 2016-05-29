@@ -17,10 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import in.yousee.jeevandaan.model.CustomException;
 
 public class MainActivity extends YouseeCustomActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener, OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +120,7 @@ public class MainActivity extends YouseeCustomActivity
         if(fragment != null)
         {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.main_content,fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.nav_view,fragment).commit();
             //setTitle();
         }
 
@@ -124,9 +132,20 @@ public class MainActivity extends YouseeCustomActivity
     public void startLocationsActivity()
     {
 
+/*
         Intent intent = new Intent();
         intent.setClass(this, in.yousee.jeevandaan.LocationsActivity.class);
         startActivity(intent);
+*/
+        Fragment mapFragment = new LocationsFragment();
+        //SupportMapFragment mapFragment = new SupportMapFragment();
+        MapView mapView = new MapView(this);
+
+        //mapFragment.
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.map);
+        getSupportFragmentManager().beginTransaction().replace(R.id.nav_view,mapFragment).commit();
+        //mapFragment.getMapAsync(this);
     }
     @Override
     public void onResponseRecieved(Object response, int requestCode) {
@@ -135,6 +154,20 @@ public class MainActivity extends YouseeCustomActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    private GoogleMap mMap;
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     }
 }

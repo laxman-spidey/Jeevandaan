@@ -16,6 +16,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import in.yousee.jeevandaan.util.LogUtil;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,11 +80,43 @@ public class LocationsFragment extends SupportMapFragment implements OnMapReadyC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_locations, container, false);
         mapView = (MapView) view.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         return  view;
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //mapView.onStart
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -123,6 +157,7 @@ public class LocationsFragment extends SupportMapFragment implements OnMapReadyC
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
+        LogUtil.print("adding markers");
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
