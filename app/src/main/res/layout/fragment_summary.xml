@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.yousee.jeevandaan.SummaryFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingBottom="0dp"
+        android:dividerHeight="10dp"
+        android:background="@color/titanium"
+        android:divider="@android:color/transparent"
+        android:id="@+id/donationlistview">
+
+    </ListView>
+
+</FrameLayout>

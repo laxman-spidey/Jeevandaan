@@ -17,6 +17,7 @@ public abstract class Middleware
 	public static final String TAG_NETWORK_REQUEST_CODE = "requestCode";
 	public static final String TAG_NETWORK_RESULT_CODE = "resultCode";
 	public static final String TAG_USER_ID = "userId";
+	public static final String TAG_PHONE_NUMBER = "phone";
 	public static final String TAG_SESSION_ID = "session_id";
 	protected List<NameValuePair> nameValuePairs;
 	protected HttpPost postRequest;
@@ -26,6 +27,13 @@ public abstract class Middleware
 		nameValuePairs.add(new BasicNameValuePair(TAG_NETWORK_REQUEST_CODE, "" + requestCode));
 	}
 
+	protected void addPhoneNumberToPost()
+	{
+		if(SessionHandler.isSessionIdExists(getContext()))
+		{
+			nameValuePairs.add(new BasicNameValuePair(TAG_PHONE_NUMBER, "" + SessionHandler.getPhoneNumber(getContext())));
+		}
+	}
 	protected void addUserIdToPost()
 	{
 		if (SessionHandler.isSessionIdExists(getContext()))

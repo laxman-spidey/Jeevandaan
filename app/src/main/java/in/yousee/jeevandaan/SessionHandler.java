@@ -76,8 +76,37 @@ public class SessionHandler extends Middleware
 		editor.putString(KEY_PHONE, phone);
 		this.phone = phone;
 		editor.commit();
+		LogUtil.print("setting phone number" + getPhoneNumber(context));
+
 
 	}
+	public static String getPhoneNumber(Context context)
+	{
+		Log.i(SESSION_DEBUG_TAG, "getphonenumber()");
+		SharedPreferences sharedPrefs = getLoginSharedPrefs(context);
+		if (isPhoneExists(context))
+		{
+
+			String phone = sharedPrefs.getString(KEY_PHONE, "");
+			Log.i(SESSION_DEBUG_TAG, "Phone = " + phone);
+			return phone;
+		}
+		Log.i(SESSION_DEBUG_TAG, "phone false");
+		return null;
+
+	}
+	public static boolean isPhoneExists(Context context)
+	{
+
+		SharedPreferences sharedPrefs = getLoginSharedPrefs(context);
+		if (sharedPrefs.contains(KEY_PHONE) && sharedPrefs.getString(KEY_PHONE, "") != null)
+		{
+			return true;
+		}
+		return false;
+
+	}
+
 	private void setLoginCredentials(String username, String password)
 	{
 		SharedPreferences sharedPrefs = getLoginSharedPrefs(context);
@@ -126,6 +155,7 @@ public class SessionHandler extends Middleware
 		return 0;
 
 	}
+
 
 	public static boolean isLoginCredentialsExists(Context context)
 	{
@@ -209,6 +239,8 @@ public class SessionHandler extends Middleware
 		nameValuePairs = new ArrayList<NameValuePair>(2);
 		super.setRequestCode(RequestCodes.NETWORK_REQUEST_VERIFY);
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
+		this.phone = phone;
+		setPhoneNumber(phone);
 		encodePostRequest(nameValuePairs);
 		sendRequest();
 
@@ -223,7 +255,9 @@ public class SessionHandler extends Middleware
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
 		nameValuePairs.add(new BasicNameValuePair("otp", otp));
 		encodePostRequest(nameValuePairs);
+		setPhoneNumber(phone);
 		this.loginFeatureClient = loginFeatureClient;
+		this.phone = phone;
 		sendRequest();
 	}
 
@@ -268,7 +302,8 @@ public class SessionHandler extends Middleware
 		LogUtil.print("serving response = " + requestCode);
 
 		if (requestCode == RequestCodes.NETWORK_REQUEST_VERIFY) {
-			setPhoneNumber(phone);
+			
+			//setPhoneNumber(this.phone);
 
 			try {
 				JSONObject json = new JSONObject(result);
@@ -301,6 +336,7 @@ public class SessionHandler extends Middleware
 				LogUtil.print("success");
 				//SessionData sessionData = new SessionData(result);
 				setSessionId(sessionId);
+				//setPhoneNumber(phone);
 				//LogUtil.print("test" + loginFeatureClient.toString());
 				loginFeatureClient.onLoginSuccess();
 				//this.responseListener.onResponseRecieved(new Boolean(true), requestCode);

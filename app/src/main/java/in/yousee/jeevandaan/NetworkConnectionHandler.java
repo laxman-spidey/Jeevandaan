@@ -176,6 +176,10 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 			LogUtil.print("response body !=  null");
 			listener.serveResponse(responseBody.getResponseString(), responseBody.getRequestCode());
 		}
+		else
+		{
+			listener.serveResponse(null,0);
+		}
 	}
 
 	/**
@@ -197,6 +201,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 			e.printStackTrace();
 		}
 		*/
+
 
 		if (response != null)
 		{

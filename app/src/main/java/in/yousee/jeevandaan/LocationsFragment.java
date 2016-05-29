@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -156,11 +157,45 @@ public class LocationsFragment extends SupportMapFragment implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        LatLng ananthapur = new LatLng(14.6712833, 77.5960872);
+        mMap.addMarker(new MarkerOptions().position(ananthapur).title("Government General Hospital  Ananthapur"));
+
+        LatLng guntur = new LatLng(16.2997797, 80.4434242);
+        mMap.addMarker(new MarkerOptions().position(guntur).title("Government General Hospital Guntur"));
+
+        LatLng kakinada = new LatLng(16.956221, 82.2270345);
+        mMap.addMarker(new MarkerOptions().position(kakinada).title("Government General Hospital Kakinada"));
+
+        LatLng kurnool = new LatLng(15.8206345, 78.0379509);
+        mMap.addMarker(new MarkerOptions().position(kurnool ).title("Government General Hospital Kurnool"));
+
+        LatLng vijayawada = new LatLng(16.5131537, 80.6188823);
+        mMap.addMarker(new MarkerOptions().position(vijayawada ).title("Government General Hospital Vijayawada "));
+
+        LatLng visakhapatnam = new LatLng(17.7066865, 83.3031901);
+        mMap.addMarker(new MarkerOptions().position(visakhapatnam).title("King George Hospital Visakhapatnam"));
+
+        LatLng kadapa = new LatLng(14.4331925, 78.8639711);
+        mMap.addMarker(new MarkerOptions().position(kadapa ).title("RIMS Kadapa"));
+
+        LatLng ongole = new LatLng(15.4879182, 80.046731);
+        mMap.addMarker(new MarkerOptions().position(ongole ).title("RIMS Ongole"));
+
+        LatLng srikakulam  = new LatLng(18.3148669, 83.8941662);
+        mMap.addMarker(new MarkerOptions().position(srikakulam ).title("RIMS Srikakulam"));
+
+        LatLng tirupathi  = new LatLng(13.6427232, 79.4068301);
+        mMap.addMarker(new MarkerOptions().position(tirupathi ).title("SVRR Govenrment General Hospital Tirupathi"));
+
         LogUtil.print("adding markers");
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(kurnool)      // Sets the center of the map to Mountain View
+                .zoom(5)                   // Sets the zoom
+                //.bearing(90)                // Sets the orientation of the camera to east
+                //.tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                .build();                   // Creates a CameraPosition from the builder
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
     }
 
 

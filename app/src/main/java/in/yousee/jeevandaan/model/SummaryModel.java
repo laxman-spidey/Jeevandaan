@@ -22,7 +22,15 @@ public class SummaryModel implements JSONParsable{
 
     public SummaryModel(String json)
     {
-
+        try
+        {
+            JSONObject object = new JSONObject(json);
+            parseJSON(object);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -45,5 +53,9 @@ public class SummaryModel implements JSONParsable{
         {
             e.printStackTrace();
         }
+    }
+    public void addDonation(Donation donation)
+    {
+        this.donations.add(donation);
     }
 }

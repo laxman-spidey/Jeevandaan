@@ -9,13 +9,13 @@ import org.json.JSONObject;
 public class Donation implements JSONParsable {
     public String location;
     public String bloodBankName;
-    public int unitsOfBlood;
+    //public int unitsOfBlood;
     public String date;
 
-    public static final String TAG_LOCATION = "location";
-    public static final String TAG_BLOODBANK_NAME = "location";
-    public static final String TAG_UNITS_OF_BLOOD = "location";
-    public static final String TAG_DATE = "location";
+    public static final String TAG_LOCATION = "camp_name";
+    public static final String TAG_BLOODBANK = "blood_bank";
+    //public static final String TAG_UNITS_OF_BLOOD = "location";
+    public static final String TAG_DATE = "donation_date";
 
 
 
@@ -40,11 +40,10 @@ public class Donation implements JSONParsable {
     public void parseJSON(JSONObject JSONObject) {
         try
         {
-            this.location = JSONObject.getString(TAG_LOCATION);
-            this.bloodBankName = JSONObject.getString(TAG_BLOODBANK_NAME);
-            this.unitsOfBlood = JSONObject.getInt(TAG_UNITS_OF_BLOOD);
             this.date = JSONObject.getString(TAG_DATE);
-
+            this.bloodBankName = JSONObject.getString(TAG_BLOODBANK);
+            this.location = JSONObject.getString(TAG_LOCATION);
+            //this.unitsOfBlood = JSONObject.getInt(TAG_UNITS_OF_BLOOD);
         } catch (JSONException e)
         {
             e.printStackTrace();
