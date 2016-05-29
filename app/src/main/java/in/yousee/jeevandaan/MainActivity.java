@@ -119,8 +119,8 @@ public class MainActivity extends YouseeCustomActivity
         }
         if(fragment != null)
         {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.nav_view,fragment).commit();
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+            //fragmentManager.beginTransaction().replace(R.id.nav_view,fragment).commit();
             //setTitle();
         }
 
@@ -144,7 +144,7 @@ public class MainActivity extends YouseeCustomActivity
         //mapFragment.
         //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         //        .findFragmentById(R.id.map);
-        getSupportFragmentManager().beginTransaction().replace(R.id.nav_view,mapFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_view,mapFragment).commit();
         //mapFragment.getMapAsync(this);
     }
     @Override
