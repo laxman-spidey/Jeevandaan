@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,9 +27,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import in.yousee.jeevandaan.model.CustomException;
+import in.yousee.jeevandaan.model.SummaryModel;
 
 public class MainActivity extends YouseeCustomActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener, SummaryFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener, SummaryFragment.OnFragmentInteractionListener, FactsFragment.OnFragmentInteractionListener {
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +51,22 @@ public class MainActivity extends YouseeCustomActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.getHeaderView(0);
+        instantiateViews(navigationView);
 
         Fragment summaryFragment = new SummaryFragment();
         replaceFragmentOnMainContent(summaryFragment, "Summary");
+
+    }
+
+    TextView donorNameView;
+    TextView bloodGroupView;
+    private void instantiateViews(NavigationView navigationView)
+    {
+        View view = navigationView.getHeaderView(0);
+        donorNameView = (TextView) view.findViewById(R.id.donor_name);
+        bloodGroupView = (TextView) view.findViewById(R.id.blood_group_value);
+
     }
 
     @Override
@@ -98,7 +116,8 @@ public class MainActivity extends YouseeCustomActivity
             fragment = new SummaryFragment();
             title = "Summary";
         } else if (id == R.id.nav_facts) {
-
+            fragment = new FactsFragment();
+            title = "Did You Know?";
         }
         if(fragment != null)
         {
@@ -118,6 +137,9 @@ public class MainActivity extends YouseeCustomActivity
     }
     @Override
     public void onResponseRecieved(Object response, int requestCode) {
+        SummaryModel summaryModel = (SummaryModel) response;
+        donorNameView.setText(summaryModel.donorName);
+        bloodGroupView.setText(summaryModel.bloodGroup);
 
     }
 

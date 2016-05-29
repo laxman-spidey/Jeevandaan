@@ -113,7 +113,7 @@ public class SummaryFragment extends Fragment implements OnResponseRecievedListe
         summary.location = "Brroklyn";
         Donation dontation1 = new Donation(summary.location);
         dontation1.bloodBankName = "SHEILD BloodBank";
-        dontation1.date = new Date().toString();
+        dontation1.date = "2016-05-24";
         //dontation1.unitsOfBlood = 4;
         dontation1.location = "Brooklyn";
         summary.addDonation(dontation1);
@@ -154,6 +154,8 @@ public class SummaryFragment extends Fragment implements OnResponseRecievedListe
         SummaryModel model = (SummaryModel) response;
         ArrayList<Donation> donations = model.donations;
         listAdapter.addAll(donations);
+        MainActivity activity = (MainActivity)getActivity();
+        activity.onResponseRecieved(response,requestCode);
     }
 
 
