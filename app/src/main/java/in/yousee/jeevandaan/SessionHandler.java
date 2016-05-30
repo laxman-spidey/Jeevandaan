@@ -281,14 +281,13 @@ public class SessionHandler extends Middleware
 
 	public void logout(OnResponseRecievedListener listener) throws CustomException
 	{
-		//this.logoutListener = listener;
-		Log.i("tag", "sendLogoutRequestToServer()");
-		postRequest = new HttpPost(NetworkConnectionHandler.DOMAIN + ServerFiles.LOGOUT);
-		nameValuePairs = new ArrayList<NameValuePair>();
-		super.setRequestCode(RequestCodes.NETWORK_REQUEST_LOGOUT);
-		encodePostRequest(nameValuePairs);
 
-		sendRequest();
+		Log.i(SESSION_DEBUG_TAG, "logging out");
+		SharedPreferences sharedPrefs = getLoginSharedPrefs(context);
+		SharedPreferences.Editor editor = sharedPrefs.edit();
+		editor.remove(KEY_SESSION_ID);
+		editor.remove(KEY_PHONE);
+		editor.commit();
 
 	}
 

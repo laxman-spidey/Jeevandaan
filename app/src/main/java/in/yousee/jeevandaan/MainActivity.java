@@ -1,5 +1,6 @@
 package in.yousee.jeevandaan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +12,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import in.yousee.jeevandaan.model.CustomException;
+import in.yousee.jeevandaan.model.SessionData;
 import in.yousee.jeevandaan.model.SummaryModel;
 
 public class MainActivity extends YouseeCustomActivity
@@ -119,6 +123,11 @@ public class MainActivity extends YouseeCustomActivity
             fragment = new FactsFragment();
             title = "Did You Know?";
         }
+        else if (id == R.id.nav_logout) {
+            showConfirmationDialog();
+            //logout();
+            //backToLogin();
+        }
         if(fragment != null)
         {
             replaceFragmentOnMainContent(fragment,title);
@@ -127,6 +136,44 @@ public class MainActivity extends YouseeCustomActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void logout()
+    {
+        SessionHandler sessionHandler = new SessionHandler(this);
+        try {
+            sessionHandler.logout(this);
+            finish();
+
+        } catch (CustomException e)
+        {
+
+        }
+
+    }
+    public void backToLogin()
+    {
+
+        Log.i("tag", "in Show menu activity");
+        Intent intent = new Intent();
+        intent.setClass(this, in.yousee.jeevandaan.LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void showConfirmationDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Do you really want to Logout?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(MainActivity.this, "Logging out", Toast.LENGTH_SHORT).show();
+                        logout();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     public void replaceFragmentOnMainContent(Fragment fragment, String title)
