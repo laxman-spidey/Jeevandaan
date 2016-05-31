@@ -8,16 +8,21 @@
             android:title="My Donations" />
         <item
             android:id="@+id/nav_locations"
-            android:icon="@drawable/ic_location_on_black_24dp"
-            android:title="Locations" />
+            android:icon="@drawable/ic_location"
+            android:title="Blood Banks" />
         <item
             android:id="@+id/nav_facts"
-            android:icon="@drawable/ic_info_black_24dp"
+            android:icon="@drawable/ic_info_24dp"
             android:title="Did You Know" />
 
         <item
+            android:id="@+id/nav_plan"
+            android:icon="@drawable/ic_plan"
+            android:title="Plan a Donation" />
+
+        <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:icon="@drawable/ic_exit_to_app_24dp"
             android:title="Logout" />
     </group>
 

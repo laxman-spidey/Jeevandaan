@@ -151,21 +151,6 @@ public class YouseeCustomActivity extends AppCompatActivity implements UsesLogin
 		setProgressBarIndeterminateVisibility(false);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case R.id.action_about_us:
-			showAboutUsActivity();
-			break;
-		default:
-			break;
-		}
-		return true;
-	}
-
 	private void setMenuState(boolean loggedIn)
 	{
 		Log.i(LOG_TAG, "login status " + loggedIn);

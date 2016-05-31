@@ -8,7 +8,7 @@
     android:id="@+id/content_view"
     android:background="@color/common_google_signin_btn_text_light_focused"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="yousee.in.bloodbank.MainActivity"
+    tools:context="in.yousee.jeevandaan.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
 </RelativeLayout>

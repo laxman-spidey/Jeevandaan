@@ -6,10 +6,36 @@
     android:background="@android:color/white">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/welcome_uc_logo" />
+        android:foregroundGravity="center"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="92dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0303"
+        android:gravity="center"
+        android:text="Donate Blood to give back life"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold|normal"
+        android:layout_below="@id/imageView"
+        android:id="@+id/textView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/welcome_uc_logo"
+        android:layout_alignParentBottom="true"
+         />
+
 
 </RelativeLayout>

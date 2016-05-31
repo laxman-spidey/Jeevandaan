@@ -34,7 +34,7 @@ import in.yousee.jeevandaan.model.SessionData;
 import in.yousee.jeevandaan.model.SummaryModel;
 
 public class MainActivity extends YouseeCustomActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener, SummaryFragment.OnFragmentInteractionListener, FactsFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationsFragment.OnFragmentInteractionListener, SummaryFragment.OnFragmentInteractionListener, FactsFragment.OnFragmentInteractionListener, PlanFragment.OnFragmentInteractionListener{
 
 
 
@@ -59,7 +59,7 @@ public class MainActivity extends YouseeCustomActivity
         instantiateViews(navigationView);
 
         Fragment summaryFragment = new SummaryFragment();
-        replaceFragmentOnMainContent(summaryFragment, "Summary");
+        replaceFragmentOnMainContent(summaryFragment, "JeevanDaan");
 
     }
 
@@ -90,27 +90,13 @@ public class MainActivity extends YouseeCustomActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
-        String title = "Summary";
+        String title = "JeevanDaan";
         int id = item.getItemId();
 
         if (id == R.id.nav_locations) {
@@ -118,11 +104,15 @@ public class MainActivity extends YouseeCustomActivity
             title = "Locations";
         } else if (id == R.id.nav_summary) {
             fragment = new SummaryFragment();
-            title = "Summary";
+            title = "JeevanDaan";
         } else if (id == R.id.nav_facts) {
             fragment = new FactsFragment();
-            title = "Did You Know?";
+            title = "Did You Know";
+        } else if (id == R.id.nav_plan) {
+            fragment = new PlanFragment();
+            title = "Plan";
         }
+
         else if (id == R.id.nav_logout) {
             showConfirmationDialog();
             //logout();

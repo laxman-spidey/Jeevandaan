@@ -108,14 +108,14 @@ public class SummaryFragment extends Fragment implements OnResponseRecievedListe
     {
 
         SummaryModel summary = new SummaryModel(null);
-        summary.bloodGroup = "O+";
-        summary.donorName = "Captain America";
-        summary.location = "Brroklyn";
-        Donation dontation1 = new Donation(summary.location);
-        dontation1.bloodBankName = "SHEILD BloodBank";
-        dontation1.date = "2016-05-24";
+        summary.bloodGroup = "--";
+        summary.donorName = "------ -----";
+        summary.location = "----- ----";
+        Donation dontation1 = new Donation();
+        dontation1.bloodBankName = "--- ----";
+        dontation1.date = "YYYY-MM-DD";
         //dontation1.unitsOfBlood = 4;
-        dontation1.location = "Brooklyn";
+        dontation1.location = "----";
         summary.addDonation(dontation1);
         return  summary;
 
@@ -153,6 +153,7 @@ public class SummaryFragment extends Fragment implements OnResponseRecievedListe
         LogUtil.print("ksjsfkjhsd");
         SummaryModel model = (SummaryModel) response;
         ArrayList<Donation> donations = model.donations;
+        listAdapter.clear();
         listAdapter.addAll(donations);
         MainActivity activity = (MainActivity)getActivity();
         activity.onResponseRecieved(response,requestCode);

@@ -36,6 +36,10 @@ public class Donation implements JSONParsable {
         parseJSON(json);
     }
 
+    public Donation()
+    {
+
+    }
     @Override
     public void parseJSON(JSONObject JSONObject) {
         try
