@@ -66,12 +66,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".LocationsActivity"
-            android:label="@string/title_activity_locations"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-        </activity>
     </application>
 
 </manifest>

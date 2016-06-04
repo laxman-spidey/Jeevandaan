@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -37,7 +38,6 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	//public static final String DOMAIN = "https://jeevandaan-mittu-spidey.c9users.io/index.php";
 	//public static final String DOMAIN = "http://192.168.0.4/jeevandaan/index.php";
 	public static final String DOMAIN = "http://health4all.online/jeevandaan";
-	//public static final String DOMAIN = "http://yousee.in/YouseeMobile/";
 	// DownloadWebpageTask downloadwebContent;
 	HttpPost postRequest;
 	Middleware listener;
@@ -90,13 +90,10 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	 */
 	public ResponseBody sendRequest(HttpPost postRequest)
 	{
-		this.listener = listener;
 		this.postRequest = postRequest;
-		// downloadwebContent = new DownloadWebpageTask();
 
 		try
 		{
-
 			return downloadUrl(postRequest);
 		}
 		catch (IOException e)
@@ -109,49 +106,6 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		// onResponseRecieved();
 
 	}
-
-	/**
-	 * This method does the same job as sendRequest() but executed in a new
-	 * Thread
-	 *
-	 */
-	public void sendRequestInMultiThreadedMode(HttpPost postRequest, Middleware listener) throws CustomException
-	{
-		this.listener = listener;
-		this.postRequest = postRequest;
-		// Thread networkThread = new Thread(this);
-		try
-		{
-			LogUtil.print("fksdjklfjskdhfkjshd");
-			LogUtil.print(readIt(postRequest.getEntity().getContent()));
-		}
-		catch (IllegalStateException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (NetworkConnectionHandler.isNetworkConnected(context))
-		{
-			LogUtil.print("before Started");
-			// downloadwebContent = new DownloadWebpageTask();
-			// networkThread.start();
-		}
-
-	}
-
-	public void run()
-	{
-
-		LogUtil.print("networkThread Started");
-
-		// downloadwebContent.execute(postRequest);
-	}
-
 
 	@Override
 	protected ResponseBody doInBackground(HttpPost... postRequests)
@@ -166,19 +120,14 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	protected void onPostExecute(ResponseBody responseBody)
 	{
 		isExecuting = false;
-
 		if (toastString != null)
 		{
-			//Toast.makeText(context, toastString, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, toastString, Toast.LENGTH_LONG).show();
 		}
 		LogUtil.print("onPostExecute()");
 		if (responseBody != null) {
 			LogUtil.print("response body !=  null");
 			listener.serveResponse(responseBody.getResponseString(), responseBody.getRequestCode());
-		}
-		else
-		{
-			listener.serveResponse(null,0);
 		}
 	}
 
@@ -192,15 +141,16 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		LogUtil.print("onResponseReceived()");
 		int requestCode = 0;
 		int resultCode = 0;
-		/*
-		String contetString1;
+
+		String contentString1;
 		try {
-			contetString1 = readIt(response.getEntity().getContent());
-			LogUtil.print(contetString1);
+			LogUtil.print("Trying");
+			contentString1 = readIt(response.getEntity().getContent());
+			LogUtil.print(contentString1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		*/
+
 
 
 		if (response != null)
@@ -266,12 +216,14 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 			else {
 				toastString = "error: 101 - Something went wrong, Please Report the issue to the developer.";
 				LogUtil.print(toastString);
+
 			}
 
 		}
 		else
 		{
 			toastString = "error: 102 - Something went wrong, Please report the issue to the developer.";
+
 
 		}
 		return null;
