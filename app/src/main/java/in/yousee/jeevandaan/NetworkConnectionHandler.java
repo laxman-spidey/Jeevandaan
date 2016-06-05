@@ -141,7 +141,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		LogUtil.print("onResponseReceived()");
 		int requestCode = 0;
 		int resultCode = 0;
-
+		/*
 		String contentString1;
 		try {
 			LogUtil.print("Trying");
@@ -150,6 +150,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 
 
 
