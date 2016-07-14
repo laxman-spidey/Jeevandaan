@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import in.yousee.jeevandaan.model.CustomException;
+import in.yousee.jeevandaan.model.Request;
 
 public abstract class Middleware
 {
@@ -21,6 +22,7 @@ public abstract class Middleware
 	public static final String TAG_SESSION_ID = "session_id";
 	protected List<NameValuePair> nameValuePairs;
 	protected HttpPost postRequest;
+	protected Request request = new Request();
 
 	protected void setRequestCode(int requestCode)
 	{
@@ -53,11 +55,13 @@ public abstract class Middleware
 
 	public void sendRequest() throws CustomException
 	{
+		//request.setParameters(nameValuePairs);
+
 		NetworkConnectionHandler connectionHandler = new NetworkConnectionHandler(getContext(), this);
 		if (NetworkConnectionHandler.isNetworkConnected(getContext()))
 		{
 
-			connectionHandler.execute(postRequest);
+			connectionHandler.execute(request);
 
 		}
 	}

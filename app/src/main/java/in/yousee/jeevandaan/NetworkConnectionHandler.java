@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.provider.SyncStateContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.Header;
@@ -12,11 +14,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import in.yousee.jeevandaan.model.CustomException;
+import in.yousee.jeevandaan.model.Request;
 import in.yousee.jeevandaan.model.ResponseBody;
 import in.yousee.jeevandaan.util.LogUtil;
 
@@ -28,7 +34,7 @@ import in.yousee.jeevandaan.util.LogUtil;
  * @author Laxman
  * @version 1.0 15/08/2013
  */
-public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, ResponseBody>
+public class NetworkConnectionHandler extends AsyncTask<Request, Void, ResponseBody>
 {
 	// used to get System services to check network status and required
 	// information
@@ -39,7 +45,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	//public static final String DOMAIN = "http://192.168.0.4/jeevandaan/index.php";
 	public static final String DOMAIN = "http://health4all.online/jeevandaan";
 	// DownloadWebpageTask downloadwebContent;
-	HttpPost postRequest;
+	Request postRequest;
 	Middleware listener;
 	public static String sessionId;
 	public static final DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -88,7 +94,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	 * Checks network status and creates a AsyncTask object starts its
 	 * execution
 	 */
-	public ResponseBody sendRequest(HttpPost postRequest)
+	public ResponseBody sendRequest(Request postRequest)
 	{
 		this.postRequest = postRequest;
 
@@ -108,7 +114,7 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 	}
 
 	@Override
-	protected ResponseBody doInBackground(HttpPost... postRequests)
+	protected ResponseBody doInBackground(Request... postRequests)
 	{
 		isExecuting = true;
 		return sendRequest(postRequests[0]);
@@ -131,112 +137,15 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		}
 	}
 
-	/**
-	 * This method is called whenever the response is received from the
-	 * server.
-	 */
 
-	public ResponseBody onResponseReceived(HttpResponse response)
-	{
-		LogUtil.print("onResponseReceived()");
-		int requestCode = 0;
-		int resultCode = 0;
-		/*
-		String contentString1;
-		try {
-			LogUtil.print("Trying");
-			contentString1 = readIt(response.getEntity().getContent());
-			LogUtil.print(contentString1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-
-
-
-		if (response != null)
-		{
-			if (response.containsHeader(Middleware.TAG_NETWORK_REQUEST_CODE))
-			{
-
-				LogUtil.print("response has headers");
-				ResponseBody responseBody = new ResponseBody();
-				Header[] headers = response.getAllHeaders();
-
-				for (int i = 0; i < headers.length; i++)
-				{
-					LogUtil.print("header " + headers[i].getName() + " : " + headers[i].getValue());
-				}
-
-				String requestCodeString = response.getFirstHeader(Middleware.TAG_NETWORK_REQUEST_CODE).getValue();
-				LogUtil.print("requestCode : " + requestCodeString);
-				requestCode = Integer.valueOf(requestCodeString);
-				responseBody.setRequestCode(requestCode);
-
-				InputStream is = null;
-				String contentAsString = null;
-				try
-				{
-					is = response.getEntity().getContent();
-					contentAsString = readIt(is);
-					responseBody.setResponseString(contentAsString);
-
-				}
-				catch (IllegalStateException e)
-				{
-					e.printStackTrace();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				finally
-				{
-					if (is != null)
-					{
-						try
-						{
-							is.close();
-						}
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				}
-
-				LogUtil.print("content string : " + contentAsString);
-				try {
-					response.getEntity().consumeContent();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return responseBody;
-
-			}
-			else {
-				toastString = "error: 101 - Something went wrong, Please Report the issue to the developer.";
-				LogUtil.print(toastString);
-
-			}
-
-		}
-		else
-		{
-			toastString = "error: 102 - Something went wrong, Please report the issue to the developer.";
-
-
-		}
-		return null;
-	}
 
 	/**
 	 * This method connects to Server and downloads Response is returned
 	 */
-	private ResponseBody downloadUrl(HttpPost postRequest) throws IOException
+	private ResponseBody downloadUrl(Request postRequest) throws IOException
 	{
 		InputStream is = null;
-
+		/*
 		LogUtil.print("download Started" + readIt(postRequest.getEntity().getContent()));
 		Header[] headers = postRequest.getAllHeaders();
 		LogUtil.print("lenght " + headers.length);
@@ -247,14 +156,52 @@ public class NetworkConnectionHandler extends AsyncTask<HttpPost, Void, Response
 		}
 		LogUtil.print(readIt(postRequest.getEntity().getContent()));
 		// httpclient.getCookieStore().addCookie();
-		HttpResponse response = httpclient.execute(postRequest);
-		//String responseStr = EntityUtils.toString(response.getEntity());
-		//LogUtil.print("response string " +responseStr);
-		return onResponseReceived(response);
+		*/
+		URL url = new URL(postRequest.getUrl());
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+		connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+		connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+		connection.setDoOutput(true);
+		DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
 
-		// Makes sure that the InputStream is closed after the
-		// app is
-		// finished using it.
+		String urlParameters = "q=anything";
+
+
+		dStream.writeBytes(postRequest.getParameters());
+
+		//dStream.writeBytes(urlParameters); //Writes out the string to the underlying output stream as a sequence of bytes
+		dStream.flush(); // Flushes the data output stream.
+		dStream.close();
+
+
+		int responseCode = connection.getResponseCode();
+		if (responseCode == HttpURLConnection.HTTP_OK) {
+			String requestCodeString = connection.getHeaderField(Middleware.TAG_NETWORK_REQUEST_CODE);
+			if(requestCodeString != null)
+			{
+				InputStream inputStream = connection.getInputStream();
+				String contentAsString = readIt(inputStream);
+				ResponseBody responseBody = new ResponseBody();
+				int requestCode = new Integer(requestCodeString).intValue();
+				responseBody.setRequestCode(requestCode);
+				responseBody.setResponseString(contentAsString);
+				LogUtil.print(contentAsString);
+				return responseBody;
+
+			}
+			else
+			{
+				toastString = "error: 101 - Something went wrong, Please Report the issue to the developer.";
+				LogUtil.print(toastString);
+			}
+		}
+		else
+		{
+			toastString = "error: 102 - Something went wrong, Please report the issue to the developer.";
+		}
+		return null;
 
 	}
 

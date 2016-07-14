@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import in.yousee.jeevandaan.model.CustomException;
 import in.yousee.jeevandaan.constants.RequestCodes;
 import in.yousee.jeevandaan.constants.ServerFiles;
+import in.yousee.jeevandaan.model.Request;
 import in.yousee.jeevandaan.util.LogUtil;
 
 public class SessionHandler extends Middleware
@@ -235,27 +236,27 @@ public class SessionHandler extends Middleware
 	public void verifyExec(String phone, OnResponseRecievedListener responseListener) throws CustomException
 	{
 		this.responseListener = responseListener;
-		postRequest = new HttpPost(NetworkConnectionHandler.DOMAIN + ServerFiles.VERIFY_EXEC);
+
+		request.setUrl(NetworkConnectionHandler.DOMAIN + ServerFiles.VERIFY_EXEC);
 		nameValuePairs = new ArrayList<NameValuePair>(2);
 		super.setRequestCode(RequestCodes.NETWORK_REQUEST_VERIFY);
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
 		this.phone = phone;
 		setPhoneNumber(phone);
-		encodePostRequest(nameValuePairs);
+		request.setParameters(nameValuePairs);
 		sendRequest();
 
 	}
 
 	public void submitOTP(String phone, String otp, UsesLoginFeature loginFeatureClient) throws CustomException
 	{
-
-		postRequest = new HttpPost(NetworkConnectionHandler.DOMAIN + ServerFiles.LOGIN_EXEC);
+		request.setUrl(NetworkConnectionHandler.DOMAIN + ServerFiles.LOGIN_EXEC);
 		nameValuePairs = new ArrayList<NameValuePair>(2);
 		super.setRequestCode(RequestCodes.NETWORK_REQUEST_OTP_SUBMIT);
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
 		nameValuePairs.add(new BasicNameValuePair("otp", otp));
-		encodePostRequest(nameValuePairs);
 		setPhoneNumber(phone);
+		request.setParameters(nameValuePairs);
 		this.loginFeatureClient = loginFeatureClient;
 		this.phone = phone;
 		sendRequest();
@@ -267,14 +268,12 @@ public class SessionHandler extends Middleware
 
 		this.username = username;
 		this.password = password;
-
-		postRequest = new HttpPost(NetworkConnectionHandler.DOMAIN + ServerFiles.LOGIN_EXEC);
+		request.setUrl(NetworkConnectionHandler.DOMAIN + ServerFiles.LOGIN_EXEC);
 		nameValuePairs = new ArrayList<NameValuePair>(2);
 		super.setRequestCode(RequestCodes.NETWORK_REQUEST_LOGIN);
 		nameValuePairs.add(new BasicNameValuePair("username", username));
 		nameValuePairs.add(new BasicNameValuePair("password", password));
-		encodePostRequest(nameValuePairs);
-
+		request.setParameters(nameValuePairs);
 		sendRequest();
 
 	}

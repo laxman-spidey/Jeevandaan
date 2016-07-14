@@ -27,12 +27,13 @@ public class SummaryMiddleware extends Middleware {
     }
     @Override
     public void assembleRequest() {
-        postRequest = new HttpPost(NetworkConnectionHandler.DOMAIN + ServerFiles.GET_SUMMARY);
+        request.setUrl(NetworkConnectionHandler.DOMAIN + ServerFiles.GET_SUMMARY);
+
         nameValuePairs = new ArrayList<>();
         setRequestCode(RequestCodes.NETWORK_REQUEST_GET_SUMMARY);
         addPhoneNumberToPost();
         //nameValuePairs.add(new BasicNameValuePair(TAG_PHONE_NUMBER, "9505878984" + SessionHandler.getPhoneNumber(getContext())));
-
+        request.setParameters(nameValuePairs);
         encodePostRequest(nameValuePairs);
     }
 
